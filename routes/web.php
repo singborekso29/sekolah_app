@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\SiswaController;
 
 // Halaman Profil Sekolah (Landing Page)
 Route::get('/', function () {
@@ -24,6 +25,20 @@ Route::middleware('auth')->group(function () {
     Route::put('/guru/update/{id}', [GuruController::class, 'update']);
 
     Route::post('/guru/delete/{id}', [GuruController::class, 'delete']);
+});
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/siswa', [SiswaController::class, 'index']);
+
+    Route::get('/siswa/create', [SiswaController::class, 'create']);
+    Route::post('/siswa/store', [SiswaController::class, 'store']);
+
+    Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit']);
+    Route::put('/siswa/update/{id}', [SiswaController::class, 'update']);
+
+    Route::post('/siswa/delete/{id}', [SiswaController::class, 'delete']);
+
 });
 
 require __DIR__ . '/auth.php';
