@@ -5,6 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuruController;
 
+// Halaman Profil Sekolah (Landing Page)
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
@@ -20,7 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/guru/update/{id}', [GuruController::class, 'update']);
 
     Route::post('/guru/delete/{id}', [GuruController::class, 'delete']);
-
 });
 
 require __DIR__ . '/auth.php';
