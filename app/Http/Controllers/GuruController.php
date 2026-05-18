@@ -60,26 +60,52 @@ class GuruController extends Controller
         $request->validate([
             'nama' => 'required',
             'mapel' => 'required',
-            'umur' => 'required|numeric'
+            'umur' => 'required|numeric',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         $guru = Guru::find($id);
 
-        $guru->update([
+        // Data yang selalu diupdate
+        $data = [
             'nama' => $request->nama,
             'mapel' => $request->mapel,
-            'umur' => $request->umur
-        ]);
+            'umur' => $request->umur,
+        ];
 
-        return redirect('/guru');
+        // Proses foto hanya jika ada file baru
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama dari storage jika ada
+            $fotoLama = public_path('foto_guru/' . $guru->foto);
+            if ($guru->foto && file_exists($fotoLama)) {
+                unlink($fotoLama);
+            }
+
+            $file = $request->file('foto');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $file->move(public_path('foto_guru'), $fileName);
+
+            $data['foto'] = $fileName;
+        }
+
+        // Satu kali update ke database
+        $guru->update($data);
+
+        return redirect('/guru')->with('success', 'Data guru berhasil diperbarui.');
     }
 
     public function delete($id)
     {
         $guru = Guru::find($id);
 
+        // Hapus foto dari storage ketika guru dihapus
+        $fotoPath = public_path('foto_guru/' . $guru->foto);
+        if ($guru->foto && file_exists($fotoPath)) {
+            unlink($fotoPath);
+        }
+
         $guru->delete();
 
-        return redirect('/guru');
+        return redirect('/guru')->with('success', 'Data guru berhasil dihapus.');
     }
 }

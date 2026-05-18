@@ -17,6 +17,7 @@
                 <th>Nama</th>
                 <th>Mapel</th>
                 <th>Umur</th>
+                <th>Foto</th>
                 <th>Aksi</th>
             </tr>
 
