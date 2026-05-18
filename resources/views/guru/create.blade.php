@@ -22,7 +22,7 @@
 
     @endif
 
-    <form action="/guru/store" method="POST">
+    <form action="/guru/store" method="POST" enctype="multipart/form-data">
 
         @csrf
 
@@ -50,6 +50,13 @@
 
         </div>
 
+        <div class="mb-3">
+
+            <label>Foto</label>
+
+            <input type="file" name="foto" class="form-control">
+
+        </div>
         <button type="submit" class="btn btn-primary">
 
             Simpan

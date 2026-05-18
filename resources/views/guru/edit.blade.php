@@ -2,61 +2,83 @@
 
 @section('content')
 
-    <h1 class="mb-4">Edit Guru</h1>
+    <div class="container">
 
-    @if($errors->any())
+        <h1>Edit Guru</h1>
 
-        <div class="alert alert-danger">
+        @if($errors->any())
 
-            <ul>
+            <div class="alert alert-danger">
 
-                @foreach($errors->all() as $error)
+                <ul>
 
-                    <li>{{ $error }}</li>
+                    @foreach($errors->all() as $error)
 
-                @endforeach
+                        <li>{{ $error }}</li>
 
-            </ul>
+                    @endforeach
 
-        </div>
+                </ul>
 
-    @endif
+            </div>
 
-    <form action="/guru/update/{{ $guru->id }}" method="POST">
+        @endif
 
-        @csrf
-        @method('PUT')
+        <form action="/guru/update/{{ $guru->id }}" method="POST" enctype="multipart/form-data">
 
-        <div class="mb-3">
+            @csrf
+            @method('PUT')
 
-            <label>Nama</label>
+            <div class="mb-3">
 
-            <input type="text" name="nama" class="form-control" value="{{ $guru->nama }}">
+                <label>Nama</label>
 
-        </div>
+                <input type="text" name="nama" class="form-control" value="{{ $guru->nama }}">
 
-        <div class="mb-3">
+            </div>
 
-            <label>Mapel</label>
+            <div class="mb-3">
 
-            <input type="text" name="mapel" class="form-control" value="{{ $guru->mapel }}">
+                <label>Mapel</label>
 
-        </div>
+                <input type="text" name="mapel" class="form-control" value="{{ $guru->mapel }}">
 
-        <div class="mb-3">
+            </div>
 
-            <label>Umur</label>
+            <div class="mb-3">
 
-            <input type="number" name="umur" class="form-control" value="{{ $guru->umur }}">
+                <label>Umur</label>
 
-        </div>
+                <input type="number" name="umur" class="form-control" value="{{ $guru->umur }}">
 
-        <button type="submit" class="btn btn-success">
+            </div>
 
-            Update
+            <div class="mb-3">
 
-        </button>
+                <label>Foto Lama</label>
 
-    </form>
+                <br>
+
+                <img src="{{ asset('foto_guru/' . $guru->foto) }}" width="120">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Upload Foto Baru</label>
+
+                <input type="file" name="foto" class="form-control">
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+
+                Update
+
+            </button>
+
+        </form>
+
+    </div>
 
 @endsection

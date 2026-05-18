@@ -24,13 +24,25 @@ class GuruController extends Controller
         $request->validate([
             'nama' => 'required',
             'mapel' => 'required',
-            'umur' => 'required|numeric'
+            'umur' => 'required|numeric',
+            'foto' => 'required|image|mimes:jpg,jpeg,png'
         ]);
 
+        // ambil file foto
+        $foto = $request->file('foto');
+
+        // buat nama file baru
+        $nama_file = time() . "-" . $foto->getClientOriginalName();
+
+        // upload foto
+        $foto->move(public_path('foto_guru'), $nama_file);
+
+        // simpan ke database
         Guru::create([
             'nama' => $request->nama,
             'mapel' => $request->mapel,
-            'umur' => $request->umur
+            'umur' => $request->umur,
+            'foto' => $nama_file
         ]);
 
         return redirect('/guru');

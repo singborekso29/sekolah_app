@@ -32,6 +32,9 @@
                     <td>{{ $data->nama }}</td>
                     <td>{{ $data->mapel }}</td>
                     <td>{{ $data->umur }}</td>
+                    <td>
+                        <img src="{{ asset('foto_guru/' . $data->foto) }}" width="80">
+                    </td>
 
                     <td>
 
