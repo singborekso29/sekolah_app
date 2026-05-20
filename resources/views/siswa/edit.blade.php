@@ -54,9 +54,7 @@
             </div>
 
             <div class="mb-3">
-
                 <label>Alamat</label>
-
                 <textarea name="alamat" class="form-control">{{ $siswa->alamat }}</textarea>
 
             </div>
