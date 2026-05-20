@@ -3,7 +3,7 @@
     <div class="container">
 
         <a class="navbar-brand" href="/dashboard">
-            Sekolah App
+            SMP Muhammadiyah Bojong Nangka
         </a>
 
         <div>
@@ -14,6 +14,9 @@
 
             <a href="/guru" class="btn btn-warning">
                 Guru
+            </a>
+            <a href="/siswa" class="btn btn-warning">
+                Siswa
             </a>
 
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
