@@ -578,7 +578,7 @@
         </form>
 
         <!-- Link ke Register -->
-        @if (Route::has('register'))
+        {{-- @if (Route::has('register'))
             <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #64748b;">
                 Belum punya akun? &nbsp;
                 <a href="{{ route('register') }}"
@@ -588,7 +588,7 @@
                     Daftar di sini
                 </a>
             </div>
-        @endif
+        @endif --}}
 
         <div class="divider"><span>Sistem Informasi Sekolah</span></div>
 

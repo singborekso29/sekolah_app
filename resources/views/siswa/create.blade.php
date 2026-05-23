@@ -43,6 +43,13 @@
                 <input type="text" name="kelas" class="form-control">
 
             </div>
+             <div class="mb-3">
+
+                <label>Jenis Kelamin</label>
+
+                <input type="text" name="jenis_kelamin" class="form-control">
+
+            </div>
 
             <div class="mb-3">
 

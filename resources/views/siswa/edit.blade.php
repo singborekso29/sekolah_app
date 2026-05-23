@@ -36,6 +36,11 @@
                 <input type="text" name="nama" class="form-control" value="{{ $siswa->nama }}">
 
             </div>
+                <div class="mb-3">
+    
+                    <label>Jenis Kelamin</label>
+    
+                    <input type="text" name="jenis_kelamin" class="form-control" value="{{ $siswa->jenis_kelamin }}">   
 
             <div class="mb-3">
 

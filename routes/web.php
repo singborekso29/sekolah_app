@@ -10,6 +10,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/dashboard', function () {
+//     return view('dashboard.index');
+// });
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
@@ -40,5 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/siswa/delete/{id}', [SiswaController::class, 'delete']);
 
 });
+
+
 
 require __DIR__ . '/auth.php';

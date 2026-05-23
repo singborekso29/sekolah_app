@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $totalGuru = Guru::count();
         $totalUser = User::count();
 
-        return view('dashboard', compact(
+        return view('dashboard.index', compact(
             'totalGuru',
             'totalUser'
         ));

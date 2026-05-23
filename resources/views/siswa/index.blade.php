@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('dashboard.layout')
 
 @section('content')
 
@@ -22,6 +22,7 @@
                     <th>No</th>
                     <th>Foto</th>
                     <th>Nama</th>
+                    <th>Jenis Kelamin</th>
                     <th>Kelas</th>
                     <th>Umur</th>
                     <th>Alamat</th>
@@ -43,6 +44,7 @@
                         </td>
 
                         <td>{{ $data->nama }}</td>
+                        <td>{{ $data->jenis_kelamin }}</td>
                         <td>{{ $data->kelas }}</td>
                         <td>{{ $data->umur }}</td>
                         <td>{{ $data->alamat }}</td>
