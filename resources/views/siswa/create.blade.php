@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('dashboard.layout')
 
 @section('content')
 
@@ -40,14 +40,41 @@
 
                 <label>Kelas</label>
 
-                <input type="text" name="kelas" class="form-control">
+                <select name="kelas" class="form-select">
+
+                    <option value="">
+                        -- Pilih Kelas --
+                    </option>
+
+                    <option value="VII-A">VII-A</option>
+                    <option value="VII-B">VII-B</option>
+                    <option value="VII-C">VII-C</option>
+
+                    <option value="VIII-A">VIII-A</option>
+                    <option value="VIII-B">VIII-B</option>
+                    <option value="VIII-C">VIII-C</option>
+
+                    <option value="IX-A">IX-A</option>
+                    <option value="IX-B">IX-B</option>
+                    <option value="IX-C">IX-C</option>
+
+                </select>
 
             </div>
-             <div class="mb-3">
+            <div class="mb-3">
 
                 <label>Jenis Kelamin</label>
 
-                <input type="text" name="jenis_kelamin" class="form-control">
+                <select name="jenis_kelamin" class="form-select">
+
+                    <option value="">
+                        -- Pilih Jenis Kelamin --
+                    </option>
+
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+
+                </select>
 
             </div>
 

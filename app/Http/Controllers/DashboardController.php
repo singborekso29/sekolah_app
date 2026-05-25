@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\Siswa;
 
 class DashboardController extends Controller
 {
@@ -11,10 +12,12 @@ class DashboardController extends Controller
     {
         $totalGuru = Guru::count();
         $totalUser = User::count();
+        $totalSiswa = Siswa::count();
 
         return view('dashboard.index', compact(
             'totalGuru',
-            'totalUser'
+            'totalUser',
+            'totalSiswa'
         ));
     }
 }
