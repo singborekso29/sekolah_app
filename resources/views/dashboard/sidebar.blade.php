@@ -21,6 +21,12 @@
             </a>
         </li>
 
+        <li class="nav-item mb-2">
+            <a href="/role" class="nav-link text-white">
+                Role User
+            </a>
+        </li>
+
         <li class="nav-item mt-4">
 
             <form method="POST" action="{{ route('logout') }}">
