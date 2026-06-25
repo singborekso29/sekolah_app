@@ -7,105 +7,149 @@ use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
+    // Menampilkan semua data guru
     public function index()
     {
         $guru = Guru::all();
-
         return view('guru.index', compact('guru'));
     }
 
+    // Menampilkan form tambah guru
     public function create()
     {
         return view('guru.create');
     }
 
+    // Menyimpan data guru baru
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'mapel' => 'required',
-            'umur' => 'required|numeric',
-            'foto' => 'required|image|mimes:jpg,jpeg,png'
-        ]);
-
-        // ambil file foto
-        $foto = $request->file('foto');
-
-        // buat nama file baru
-        $nama_file = time() . "-" . $foto->getClientOriginalName();
-
-        // upload foto
-        $foto->move(public_path('foto_guru'), $nama_file);
-
-        // simpan ke database
-        Guru::create([
-            'nama' => $request->nama,
-            'mapel' => $request->mapel,
-            'umur' => $request->umur,
-            'foto' => $nama_file
-        ]);
-
-        return redirect('/guru');
-    }
-
-    public function edit($id)
-    {
-        $guru = Guru::find($id);
-
-        return view('guru.edit', compact('guru'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama' => 'required',
-            'mapel' => 'required',
-            'umur' => 'required|numeric',
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|unique:gurus,nip|max:50',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'pendidikan_terakhir' => 'required|string|max:255',
+            'jurusan' => 'required|string|max:255',
+            'status_kepegawaian' => 'required|string|max:255',
+            'mapel' => 'required|string|max:255',
+            'no_telepon' => 'required|string|max:15',
+            'alamat' => 'required|string',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $guru = Guru::find($id);
-
-        // Data yang selalu diupdate
-        $data = [
-            'nama' => $request->nama,
-            'mapel' => $request->mapel,
-            'umur' => $request->umur,
-        ];
-
-        // Proses foto hanya jika ada file baru
+        // Upload foto
+        $nama_file = null;
         if ($request->hasFile('foto')) {
-            // Hapus foto lama dari storage jika ada
-            $fotoLama = public_path('foto_guru/' . $guru->foto);
-            if ($guru->foto && file_exists($fotoLama)) {
-                unlink($fotoLama);
+            $foto = $request->file('foto');
+            $nama_file = time() . '-' . $foto->getClientOriginalName();
+            $foto->move(public_path('foto_guru'), $nama_file);
+        }
+
+        // Simpan ke database
+        Guru::create([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'agama' => $request->agama,
+            'pendidikan_terakhir' => $request->pendidikan_terakhir,
+            'jurusan' => $request->jurusan,
+            'status_kepegawaian' => $request->status_kepegawaian,
+            'mapel' => $request->mapel,
+            'no_telepon' => $request->no_telepon,
+            'alamat' => $request->alamat,
+            'foto' => $nama_file
+        ]);
+
+        return redirect('/guru')->with('success', 'Data guru berhasil ditambahkan!');
+    }
+
+    // Menampilkan detail guru
+    public function show($id)
+    {
+        $guru = Guru::findOrFail($id);
+        return view('guru.show', compact('guru'));
+    }
+
+    // Menampilkan form edit guru
+    public function edit($id)
+    {
+        $guru = Guru::findOrFail($id);
+        return view('guru.edit', compact('guru'));
+    }
+
+    // Mengupdate data guru
+    public function update(Request $request, $id)
+    {
+        $guru = Guru::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|unique:gurus,nip,'.$id.'|max:50',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'pendidikan_terakhir' => 'required|string|max:255',
+            'jurusan' => 'required|string|max:255',
+            'status_kepegawaian' => 'required|string|max:255',
+            'mapel' => 'required|string|max:255',
+            'no_telepon' => 'required|string|max:15',
+            'alamat' => 'required|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $data = $request->except('_token', '_method', 'foto');
+
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama
+            if ($guru->foto && file_exists(public_path('foto_guru/' . $guru->foto))) {
+                unlink(public_path('foto_guru/' . $guru->foto));
             }
 
             $file = $request->file('foto');
             $fileName = time() . '-' . $file->getClientOriginalName();
             $file->move(public_path('foto_guru'), $fileName);
-
             $data['foto'] = $fileName;
         }
 
-        // Satu kali update ke database
         $guru->update($data);
 
-        return redirect('/guru')->with('success', 'Data guru berhasil diperbarui.');
+        return redirect('/guru')->with('success', 'Data guru berhasil diperbarui!');
     }
 
-    public function delete($id)
+    // Menghapus data guru
+    public function destroy($id)
     {
-        $guru = Guru::find($id);
+        $guru = Guru::findOrFail($id);
 
-        // Hapus foto dari storage ketika guru dihapus
-        $fotoPath = public_path('foto_guru/' . $guru->foto);
-        if ($guru->foto && file_exists($fotoPath)) {
-            unlink($fotoPath);
+        if ($guru->foto && file_exists(public_path('foto_guru/' . $guru->foto))) {
+            unlink(public_path('foto_guru/' . $guru->foto));
         }
 
         $guru->delete();
 
-        return redirect('/guru')->with('success', 'Data guru berhasil dihapus.');
+        return redirect('/guru')->with('success', 'Data guru berhasil dihapus!');
+    }
+
+    // Cetak PDF satu guru
+    public function cetakPDF($id)
+    {
+        $guru = Guru::findOrFail($id);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('guru.cetak-pdf', compact('guru'));
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->stream('data-guru-'.$guru->nama.'.pdf');
+    }
+
+    // Cetak PDF semua guru
+    public function cetakSemuaPDF()
+    {
+        $guru = Guru::all();
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('guru.cetak-semua-pdf', compact('guru'));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('semua-data-guru.pdf');
     }
 }

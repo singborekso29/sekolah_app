@@ -1,115 +1,245 @@
-@extends('dashboard.layout')
+@extends('layouts.app')
 
 @section('content')
 
-    <div class="container">
+<div class="container">
+    <h1>Tambah Siswa</h1>
+    <hr>
 
-        <h1>Tambah Siswa</h1>
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        @if($errors->any())
+    <form action="{{ route('siswa.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-            <div class="alert alert-danger">
+        <div class="row">
+            <!-- Kolom Kiri -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Nama <span class="text-danger">*</span></label>
+                    <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" 
+                           value="{{ old('nama') }}" required>
+                    @error('nama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="mb-3">
+                    <label>Tempat Lahir <span class="text-danger">*</span></label>
+                    <input type="text" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" 
+                           value="{{ old('tempat_lahir') }}" required>
+                    @error('tempat_lahir')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                <ul>
+                <div class="mb-3">
+                    <label>Tanggal Lahir <span class="text-danger">*</span></label>
+                    <input type="date" name="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" 
+                           value="{{ old('tanggal_lahir') }}" required>
+                    @error('tanggal_lahir')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                    @foreach($errors->all() as $error)
+                <div class="mb-3">
+                    <label>NISN <span class="text-danger">*</span></label>
+                    <input type="text" name="nisn" class="form-control @error('nisn') is-invalid @enderror" 
+                           value="{{ old('nisn') }}" required>
+                    @error('nisn')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <li>{{ $error }}</li>
+                <div class="mb-3">
+                    <label>NIK <span class="text-danger">*</span></label>
+                    <input type="text" name="nik" class="form-control @error('nik') is-invalid @enderror" 
+                           value="{{ old('nik') }}" required>
+                    @error('nik')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                    @endforeach
+                <div class="mb-3">
+                    <label>Kelas <span class="text-danger">*</span></label>
+                    <select name="kelas" class="form-control @error('kelas') is-invalid @enderror" required>
+                        <option value="">-- Pilih Kelas --</option>
+                        <option value="VII-A" {{ old('kelas') == 'VII-A' ? 'selected' : '' }}>VII-A</option>
+                        <option value="VII-B" {{ old('kelas') == 'VII-B' ? 'selected' : '' }}>VII-B</option>
+                        <option value="VII-C" {{ old('kelas') == 'VII-C' ? 'selected' : '' }}>VII-C</option>
+                        <option value="VIII-A" {{ old('kelas') == 'VIII-A' ? 'selected' : '' }}>VIII-A</option>
+                        <option value="VIII-B" {{ old('kelas') == 'VIII-B' ? 'selected' : '' }}>VIII-B</option>
+                        <option value="VIII-C" {{ old('kelas') == 'VIII-C' ? 'selected' : '' }}>VIII-C</option>
+                        <option value="IX-A" {{ old('kelas') == 'IX-A' ? 'selected' : '' }}>IX-A</option>
+                        <option value="IX-B" {{ old('kelas') == 'IX-B' ? 'selected' : '' }}>IX-B</option>
+                        <option value="IX-C" {{ old('kelas') == 'IX-C' ? 'selected' : '' }}>IX-C</option>
+                    </select>
+                    @error('kelas')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                </ul>
+                <div class="mb-3">
+                    <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                    <select name="jenis_kelamin" class="form-control @error('jenis_kelamin') is-invalid @enderror" required>
+                        <option value="">-- Pilih Jenis Kelamin --</option>
+                        <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    </select>
+                    @error('jenis_kelamin')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
+                <div class="mb-3">
+                    <label>Umur <span class="text-danger">*</span></label>
+                    <input type="number" name="umur" class="form-control @error('umur') is-invalid @enderror" 
+                           value="{{ old('umur') }}" required>
+                    @error('umur')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
-        @endif
+            <!-- Kolom Kanan -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Agama <span class="text-danger">*</span></label>
+                    <select name="agama" class="form-control @error('agama') is-invalid @enderror" required>
+                        <option value="">-- Pilih Agama --</option>
+                        <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                        <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                        <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                        <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                        <option value="Budha" {{ old('agama') == 'Budha' ? 'selected' : '' }}>Budha</option>
+                    </select>
+                    @error('agama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-        <form action="/siswa/store" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label>Nama Ayah <span class="text-danger">*</span></label>
+                    <input type="text" name="nama_ayah" class="form-control @error('nama_ayah') is-invalid @enderror" 
+                           value="{{ old('nama_ayah') }}" required>
+                    @error('nama_ayah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-            @csrf
+                <div class="mb-3">
+                    <label>Pekerjaan Ayah <span class="text-danger">*</span></label>
+                    <input type="text" name="pekerjaan_ayah" class="form-control @error('pekerjaan_ayah') is-invalid @enderror" 
+                           value="{{ old('pekerjaan_ayah') }}" required>
+                    @error('pekerjaan_ayah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-            <div class="mb-3">
+                <div class="mb-3">
+                    <label>Nama Ibu <span class="text-danger">*</span></label>
+                    <input type="text" name="nama_ibu" class="form-control @error('nama_ibu') is-invalid @enderror" 
+                           value="{{ old('nama_ibu') }}" required>
+                    @error('nama_ibu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                <label>Nama</label>
+                <div class="mb-3">
+                    <label>Pekerjaan Ibu <span class="text-danger">*</span></label>
+                    <input type="text" name="pekerjaan_ibu" class="form-control @error('pekerjaan_ibu') is-invalid @enderror" 
+                           value="{{ old('pekerjaan_ibu') }}" required>
+                    @error('pekerjaan_ibu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                <input type="text" name="nama" class="form-control">
+                <div class="mb-3">
+                    <label>Jumlah Saudara <span class="text-danger">*</span></label>
+                    <input type="number" name="jumlah_saudara" class="form-control @error('jumlah_saudara') is-invalid @enderror" 
+                           value="{{ old('jumlah_saudara') }}" required>
+                    @error('jumlah_saudara')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
+                <div class="mb-3">
+                    <label>Asal Sekolah <span class="text-danger">*</span></label>
+                    <input type="text" name="asal_sekolah" class="form-control @error('asal_sekolah') is-invalid @enderror" 
+                           value="{{ old('asal_sekolah') }}" required>
+                    @error('asal_sekolah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label>Diterima Di Sekolah <span class="text-danger">*</span></label>
+                    <textarea name="diterima_di_sekolah" class="form-control @error('diterima_di_sekolah') is-invalid @enderror" 
+                              rows="2" required>{{ old('diterima_di_sekolah') }}</textarea>
+                    @error('diterima_di_sekolah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label>No Ijazah <span class="text-danger">*</span></label>
+                    <input type="text" name="no_ijazah" class="form-control @error('no_ijazah') is-invalid @enderror" 
+                           value="{{ old('no_ijazah') }}" required>
+                    @error('no_ijazah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
+        </div>
 
-            <div class="mb-3">
-
-                <label>Kelas</label>
-
-                <select name="kelas" class="form-select">
-
-                    <option value="">
-                        -- Pilih Kelas --
-                    </option>
-
-                    <option value="VII-A">VII-A</option>
-                    <option value="VII-B">VII-B</option>
-                    <option value="VII-C">VII-C</option>
-
-                    <option value="VIII-A">VIII-A</option>
-                    <option value="VIII-B">VIII-B</option>
-                    <option value="VIII-C">VIII-C</option>
-
-                    <option value="IX-A">IX-A</option>
-                    <option value="IX-B">IX-B</option>
-                    <option value="IX-C">IX-C</option>
-
-                </select>
-
+        <!-- Alamat Full Width -->
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label>Alamat <span class="text-danger">*</span></label>
+                    <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" 
+                              rows="3" required>{{ old('alamat') }}</textarea>
+                    @error('alamat')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
-            <div class="mb-3">
+        </div>
 
-                <label>Jenis Kelamin</label>
-
-                <select name="jenis_kelamin" class="form-select">
-
-                    <option value="">
-                        -- Pilih Jenis Kelamin --
-                    </option>
-
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-
-                </select>
-
+        <!-- Foto Full Width -->
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label>Foto</label>
+                    <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror">
+                    <small class="text-muted">Format: JPG, JPEG, PNG (Max: 2MB)</small>
+                    @error('foto')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
+        </div>
 
-            <div class="mb-3">
-
-                <label>Umur</label>
-
-                <input type="number" name="umur" class="form-control">
-
+        <!-- Tombol -->
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
+                <a href="{{ route('siswa.index') }}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Batal
+                </a>
             </div>
+        </div>
 
-            <div class="mb-3">
-
-                <label>Alamat</label>
-
-                <textarea name="alamat" class="form-control"></textarea>
-
-            </div>
-
-            <div class="mb-3">
-
-                <label>Foto</label>
-
-                <input type="file" name="foto" class="form-control">
-
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-
-                Simpan
-
-            </button>
-
-        </form>
-
-    </div>
+    </form>
+</div>
 
 @endsection
